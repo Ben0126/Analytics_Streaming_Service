@@ -1,0 +1,66 @@
+
+
+
+library(tidyverse) 
+library(forcats)
+library(janeaustenr)
+library(tidytext)
+library(reshape2)
+library(lubridate)
+library(ggplot2)
+library(GGally)
+
+
+
+
+
+#netflix----
+
+list.files(path = "data/netflix_titles.cav")
+
+netflix <- read.csv("data/netflix_titles.csv")
+glimpse(netflix)
+
+#amazon----
+
+list.files(path = "data/amazon_prime_titles.cav")
+
+amazon <- read.csv("data/amazon_prime_titles.csv")
+glimpse(amazon)
+
+#disney_plus----
+
+list.files(path = "data/disney_plus_titles.cav")
+
+disney_plus <- read.csv("data/disney_plus_titles.csv")
+glimpse(disney_plus)
+
+#hulu----
+
+list.files(path = "data/hulu_titles.cav")
+
+hulu <- read.csv("data/hulu_titles.cav")
+glimpse(hulu)
+
+#----
+
+gg_miss_which(NetFlix)
+
+summary(netflix)
+str(netflix)
+
+netflix%>%
+  group_by(show_id)%>%
+  count()%>%
+  filter(n>1)
+
+
+#----
+countries = netflix%>%
+  select(country, type, title, listed_in)
+
+sum(is.na(countries$country))/nrow(countries)
+#country NA's rate: 1% => delete them(NA value)
+
+countries<-countries%>%
+  filter(!is.na(country))
